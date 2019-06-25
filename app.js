@@ -7,7 +7,14 @@ mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 
 //APP CONFIG 
-mongoose.connect("mongodb://localhost:27017/restful_blog_app", {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://devsprout:devSebasTestSproutMongo@cluster0-v6jvy.mongodb.net/test?retryWrites=true&w=majority', {
+	userNewUrlParser: true,
+	useCreateIndex: true
+}).then(() => {
+	console.log('Connected to DB');
+}).catch(err => {
+	console.log('Error: ', err.message);
+});
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -52,9 +59,9 @@ app.post("/blogs", function(req, res){
             res.render("new");
         } else {
             //redirect to index
-            res.redirect("/blogs")
+            res.redirect("/blogs");
         }
-    })
+    });
 });
 //SHOW ROUTE
 app.get("/blogs/:id", function(req, res){
@@ -64,7 +71,7 @@ app.get("/blogs/:id", function(req, res){
         } else {
             res.render("show", {blog: foundBlog});
         }
-    })
+    });
 });
 
 //EDIT ROUTE
@@ -102,5 +109,5 @@ app.delete("/blogs/:id", function(req, res){
 });
 
 app.listen(PORT, function() {
-    console.log("The server has started!")
-})
+    console.log("The server has started!");
+});
